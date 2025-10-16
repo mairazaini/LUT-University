@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Database</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+        img {
+            width: 64px;
+            height: 64px;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Database</h1>
+    <table id="username-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Admin</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Webmaster</td>
+                <td>example@email.com</td>
+                <td>X</td>
+                <td><img src="https://via.placeholder.com/64" alt="User Image"></td>
+            </tr>
+            <tr>
+                <td>User123</td>
+                <td>example@email.com</td>
+                <td>-</td>
+                <td><img src="https://via.placeholder.com/64" alt="User Image"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Add/Edit User</h2>
+    <form id="username-form">
+        <label for="input-username">Username:</label>
+        <input type="text" id="input-username" required><br><br>
+
+        <label for="input-email">Email:</label>
+        <input type="email" id="input-email" required><br><br>
+        
+        <label for="input-admin">Admin:</label>
+        <input type="checkbox" id="input-admin"><br><br>
+        
+        <label for="input-image">Image:</label>
+        <input type="file" id="input-image" accept="image/*"><br><br>
+        
+        <button id="submit-data">Submit</button>
+    </form>
+
+    <button id="empty-table">Empty Table</button>
+    <script>
+        document.getElementById('username-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userName = document.getElementById('input-username').value;
+            const userEmail = document.getElementById('input-email').value;
+            const userIsAdmin = document.getElementById('input-admin').checked ? 'X' : '-';
+            const userImageFile = document.getElementById('input-image').files[0];
+            const table = document.getElementById('username-table').getElementsByTagName('tbody')[0];
+            let rowExists = false;
+
+            const updateTable = (imageSrc) => {
+                for (let row of table.rows) {
+                    if (row.cells[0].innerText === userName) {
+                        row.cells[1].innerText = userEmail;
+                        row.cells[2].innerText = userIsAdmin;
+                        row.cells[3].innerHTML = `<img src="${imageSrc}" alt="User Image">`;
+                        rowExists = true;
+                        break;
+                    }
+                }
+                if (!rowExists) {
+                    const newRow = table.insertRow();
+                    newRow.insertCell(0).innerText = userName;
+                    newRow.insertCell(1).innerText = userEmail;
+                    newRow.insertCell(2).innerText = userIsAdmin;
+                    newRow.insertCell(3).innerHTML = `<img src="${imageSrc}" alt="User Image">`;
+                }
+            };
+
+            if (userImageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    updateTable(e.target.result);
+                };
+                reader.readAsDataURL(userImageFile);
+            } else {
+                updateTable('https://via.placeholder.com/64');
+            }
+        });
+
+        document.getElementById('empty-table').addEventListener('click', function() {
+            const table = document.getElementById('username-table').getElementsByTagName('tbody')[0];
+            table.innerHTML = '';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Population Data</title>
+  <script src="https://unpkg.com/frappe-charts@latest"></script> <!-- Frappe Charts Library -->
+  <script src="script.js" defer></script> <!-- External JavaScript -->
+  <style>
+    #chart {
+      height: 450px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Population Data (2000-2021)</h1>
+  <div id="chart"></div>
+
+  <!-- Input for Municipality -->
+  <input type="text" id="input-area" placeholder="Enter municipality code (SSS for country)">
+  <button id="submit-data">Submit</button>
+
+  <!-- Buttons for extra features -->
+  <button id="add-data">View estimative data</button>
+  <button id="navigation">View birth and death charts</button>
+</body>
+</html>
